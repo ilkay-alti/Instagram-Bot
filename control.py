@@ -4,4 +4,5 @@ CommandList=[
     "hello man"
 ]
 #-----> Full Page or 
-fulpage=2 # 0 - full page command and lıke -----  2-3-4... number of posts
+fulpageCommand=0 # 0 - full page command and lıke -----  2-3-4... number of posts
+fulpageLike=2

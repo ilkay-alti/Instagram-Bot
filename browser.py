@@ -14,8 +14,8 @@ class Browser:
         # Browser.followersList(self) -------> Followers lıst
         # Browser.followingList(self) -------> Following List
         # Browser.followingList(self)
-        # Browser.userPostLike(self)  #-------> User FulPage Like
-        Browser.userPostCommand(self)
+        Browser.userPostLike(self)  #-------> User FulPage Like
+        # Browser.userPostCommand(self)
 
 
 
@@ -30,30 +30,12 @@ class Browser:
         username.send_keys(ui.username)
         password.send_keys(ui.password)
         loginBtn.click()
-        time.sleep(2)
+        time.sleep(3)
         self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/div/button').click()
         time.sleep(2)
         self.browser.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[2]').click()
         time.sleep(2)
         
-
-    # def unfollow(self):
-    #     self.browser.get(self.link+ui.username+'/')
-    #     self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a').click()
-    #     time.sleep(3000)
-    #     Browser.scrollDown(self)
-        
-    #     with open("following.txt", "r", encoding="utf-8") as file:    
-    #         nameSet1 = set(file.read().splitlines())
-
-    #     with open("followers.txt", "r", encoding="utf-8") as file:
-    #         nameSet2 = set(file.read().splitlines())
-
-                 
-
-
-
-
     #BASIC COMMANDS
     def userPostCommand(self):
         self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.UsertPostLike)
@@ -64,7 +46,7 @@ class Browser:
         Posts=[]
         TrueorFalse=0
 
-        if TrueorFalse==c.fulpage:
+        if TrueorFalse==c.fulpageCommand:
             for i in PostsClass:
                 Posts.append(i.find_element_by_tag_name('a'))
                 print(Posts)
@@ -80,11 +62,11 @@ class Browser:
                 time.sleep(3)
                 self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
 
-        elif TrueorFalse!=c.fulpage:
+        elif TrueorFalse!=c.fulpageCommand:
             for i in PostsClass:
                 Posts.append(i.find_element_by_tag_name('a'))
-                c.fulpage=c.fulpage-1
-                if c.fulpage == TrueorFalse:
+                c.fulpageCommand=c.fulpageCommand-1
+                if c.fulpageCommand == TrueorFalse:
                     break
             
             for i in Posts:
@@ -97,11 +79,7 @@ class Browser:
                 time.sleep(2)
                 self.browser.find_element_by_xpath("/html/body/div[5]/div[2]/div/article/div[3]/section[3]/div/form/button").click()      
                 time.sleep(3)
-                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()        
-                
-
-        
-                                                                
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()                                                               
 
     def userPostLike(self):
        
@@ -113,19 +91,32 @@ class Browser:
         
         PostsClass=self.browser.find_elements_by_class_name('v1Nh3')
         Posts=[]
-        for i in PostsClass:
-            Posts.append(i.find_element_by_tag_name('a'))
-        
-        for i in Posts:
-            i.click()
-            time.sleep(2)
-            self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[1]/button').click()
-            time.sleep(2)
-            self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
-            time.sleep(0.5)
+        TrueorFalse=0
+        if TrueorFalse==c.fulpageLike:
+            for i in PostsClass:
+                Posts.append(i.find_element_by_tag_name('a'))
+            
+            for i in Posts:
+                i.click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[1]/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
+                time.sleep(0.5)
 
-        time.sleep(5000)
-
+        elif TrueorFalse!=c.fulpageLike:
+            for i in PostsClass:
+                Posts.append(i.find_element_by_tag_name('a'))  
+                c.fulpageLike=c.fulpageLike-1
+                if c.fulpageLike == TrueorFalse:
+                    break  
+            for i in Posts:
+                i.click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[1]/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
+                time.sleep(0.5)
 
 
 
