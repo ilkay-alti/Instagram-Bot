@@ -18,3 +18,6 @@ HastagPageCommads=[
     "goodjob",
     "good"
 ]
+
+#Dowondload Profile Photo
+userNameProfilePhoto="1dunyayazilim"

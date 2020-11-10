@@ -4,6 +4,8 @@ import userınfo as ui
 import control as c
 import random
 import os
+import requests
+from bs4 import BeautifulSoup
 
 
 PATH ="/home/ilkayus/path/chromedriver"
@@ -13,7 +15,7 @@ class Browser:
     def __init__(self,link):
         self.link=link
         self.browser=webdriver.Chrome(PATH)
-        Browser.loginInstagram(self)
+        # Browser.loginInstagram(self)
         # Browser.followersList(self) -------> Followers lıst
         # Browser.followingList(self) -------> Following List
         
@@ -22,8 +24,8 @@ class Browser:
         # Browser.HastagPostLike(self)  #Hastag Ful Page Lıke
         # Browser.HastagPostCommand(self)  # Hastag Full page Command
        
-        Browser.DeleteNotFollow(self)
-
+        # Browser.DeleteNotFollow(self)   ------>Delete Not Follow
+        Browser.DowonloadProfilePicture(self)
 
     def loginInstagram(self):
         self.browser.get(self.link)
@@ -228,7 +230,18 @@ class Browser:
                 time.sleep(2)
 
 
+    def DowonloadProfilePicture(self):
 
+        URL="https://www.instagram.com/{}/"
+
+        request= requests.get(URL.format(c.userNameProfilePhoto))
+        soup= BeautifulSoup(request.text,"html.parser")
+        finder =soup.find("meta",property="og:image")
+        url=finder.attrs['content']    
+
+        with open(c.userNameProfilePhoto+".jpg","wb") as picture:
+            image=requests.get(url).content
+            picture.write(image)
 
 
 
