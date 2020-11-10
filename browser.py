@@ -2,6 +2,9 @@ from selenium import webdriver
 import time
 import userınfo as ui
 import control as c
+import random
+import os
+
 
 PATH ="/home/ilkayus/path/chromedriver"
 
@@ -13,12 +16,13 @@ class Browser:
         Browser.loginInstagram(self)
         # Browser.followersList(self) -------> Followers lıst
         # Browser.followingList(self) -------> Following List
-        # Browser.followingList(self)
-        Browser.userPostLike(self)  #-------> User FulPage Like
-        # Browser.userPostCommand(self)
-
-
-
+        
+        # Browser.userPostLike(self)  #-------> User FulPage Like
+        # Browser.userPostCommand(self)  #--------> User Fulpage Command
+        # Browser.HastagPostLike(self)  #Hastag Ful Page Lıke
+        # Browser.HastagPostCommand(self)  # Hastag Full page Command
+       
+        Browser.DeleteNotFollow(self)
 
 
     def loginInstagram(self):
@@ -36,9 +40,14 @@ class Browser:
         self.browser.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[2]').click()
         time.sleep(2)
         
+        
+
+
+
+
     #BASIC COMMANDS
     def userPostCommand(self):
-        self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.UsertPostLike)
+        self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.UsertCommand)
         time.sleep(2)
         self.browser.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/div[3]/div[2]/div/a[1]').click()
         time.sleep(2)
@@ -55,9 +64,10 @@ class Browser:
                 time.sleep(2)
                 self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[2]/button').click()
                 time.sleep(2)
-                
-                self.browser.find_element_by_xpath("//textarea[@placeholder='Add a comment…']").send_keys(c.CommandList[0])
+              
+                self.browser.find_element_by_xpath("//textarea[@placeholder='Add a comment…']").send_keys(c.userPostCommand[random.randint(0,len(c.userPostCommand)-1)])
                 time.sleep(2)
+                
                 self.browser.find_element_by_xpath("/html/body/div[5]/div[2]/div/article/div[3]/section[3]/div/form/button").click()      
                 time.sleep(3)
                 self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
@@ -74,9 +84,10 @@ class Browser:
                 time.sleep(2)
                 self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[2]/button').click()
                 time.sleep(2)
-                
-                self.browser.find_element_by_xpath("//textarea[@placeholder='Add a comment…']").send_keys(c.CommandList[0])
+              
+                self.browser.find_element_by_xpath("//textarea[@placeholder='Add a comment…']").send_keys(c.userPostCommand[random.randint(0,len(c.userPostCommand)-1)])
                 time.sleep(2)
+              
                 self.browser.find_element_by_xpath("/html/body/div[5]/div[2]/div/article/div[3]/section[3]/div/form/button").click()      
                 time.sleep(3)
                 self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()                                                               
@@ -117,6 +128,112 @@ class Browser:
                 time.sleep(2)
                 self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
                 time.sleep(0.5)
+    
+    def HastagPostLike(self):
+        self.browser.find_element_by_xpath('//input[@type="text"]').send_keys('#'+c.HastagLike)
+        time.sleep(2)
+        self.browser.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/div[3]/div[2]/div/a[1]').click()
+        time.sleep(2)
+        PostsClass=self.browser.find_elements_by_class_name('v1Nh3')
+        Posts=[]
+        TrueorFalse=0
+        if TrueorFalse==c.hastagfulpageLike:
+            for i in PostsClass:
+                Posts.append(i.find_element_by_tag_name('a'))
+            
+            for i in Posts:
+                i.click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[1]/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
+                time.sleep(0.5)
+
+        elif TrueorFalse!=c.hastagfulpageLike:
+            for i in PostsClass:
+                Posts.append(i.find_element_by_tag_name('a'))  
+                c.hastagfulpageLike=c.hastagfulpageLike-1
+                if c.hastagfulpageLike == TrueorFalse:
+                    break  
+            for i in Posts:
+                i.click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[1]/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
+                time.sleep(0.5)
+        
+    def HastagPostCommand(self):
+        self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.HastagCommand)
+        time.sleep(2)
+        self.browser.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/div[3]/div[2]/div/a[1]').click()
+        time.sleep(2)
+        PostsClass=self.browser.find_elements_by_class_name('v1Nh3')
+        Posts=[]
+        TrueorFalse=0
+
+        if TrueorFalse==c.hastagfulpagecommand:
+            for i in PostsClass:
+                Posts.append(i.find_element_by_tag_name('a'))
+                print(Posts)
+            for i in Posts:
+                i.click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[2]/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath("//textarea[@placeholder='Add a comment…']").send_keys(c.HastagPageCommads[random.randint(0,len(c.HastagPageCommads)-1)])
+                time.sleep(2)
+                self.browser.find_element_by_xpath("/html/body/div[5]/div[2]/div/article/div[3]/section[3]/div/form/button").click()      
+                time.sleep(3)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()
+
+        elif TrueorFalse!=c.hastagfulpagecommand:
+            for i in PostsClass:
+                Posts.append(i.find_element_by_tag_name('a'))
+                c.hastagfulpagecommand=c.hastagfulpagecommand-1
+                if c.hastagfulpagecommand == TrueorFalse:
+                    break
+            
+            for i in Posts:
+                i.click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[2]/div/article/div[3]/section[1]/span[2]/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath("//textarea[@placeholder='Add a comment…']").send_keys(c.HastagPageCommads[random.randint(0,len(c.HastagPageCommads)-1)])
+                time.sleep(2)
+                self.browser.find_element_by_xpath("/html/body/div[5]/div[2]/div/article/div[3]/section[3]/div/form/button").click()      
+                time.sleep(3)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()               
+
+    def DeleteNotFollow(self):
+        Browser.followingList(self)
+        time.sleep(2)
+        Browser.followersList(self)
+        time.sleep(2)
+        Browser.unfollowList(self)
+        time.sleep(2)
+        os.remove("following.txt")
+        os.remove("followers.txt")
+        self.browser.get(self.link+ui.username)
+        with open("unfollow.txt", "r", encoding="utf-8") as file:    
+            nameSet1 = set(file.read().splitlines())
+            for user in nameSet1:
+                print(user)
+                time.sleep(2)
+                self.browser.get(self.link+user)
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/div/div[2]/div/span/span[1]/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[1]').click()
+                time.sleep(2)
+
+
+
+
+
+
+
+
 
 
     #GENERAL COMMANDS
@@ -134,7 +251,6 @@ class Browser:
             pageAnd=self.browser.execute_script(jsCommand)
             if finish == pageAnd:
                 break
-
 
     def followingList(self):
         self.browser.get(self.link+ui.username)
