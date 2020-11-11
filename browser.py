@@ -28,7 +28,7 @@ class Browser:
         # Browser.UserFollowDM(self)
         # Browser.followingList
         # Browser.GTuser(self)
-
+        Browser.DmDelete(self)
 
 
 
@@ -305,12 +305,6 @@ class Browser:
                 self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea').send_keys(c.newUserMessage)
                 time.sleep(2)
                 Browser.GTuser(self)
-                
-      
-    
-                
-                
-
 
     #GENERAL COMMANDS
     def scrollDown(self):
@@ -383,3 +377,36 @@ class Browser:
                 time.sleep(2)
                 self.browser.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/div[1]/div[1]/div/div/div/span/span[1]/button').click()
                 time.sleep(2)
+
+
+    def DmDelete(self):
+        self.browser.get('https://www.instagram.com/direct/inbox/')
+        Browser.scrollDown2(self)
+    
+        followers= self.browser.find_elements_by_css_selector('.-qQT3.rOtsg')
+      
+        for follow in followers:
+            self.browser.find_element_by_class_name('-qQT3').click()
+            self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[1]/div/div/div[3]/button').click()
+            time.sleep(1)
+            self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div/div[2]/div[3]/div[1]/button').click()
+            time.sleep(1)
+            self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[2]/button[1]').click()
+            time.sleep(2)
+            print(follow)
+                
+
+    def scrollDown2(self):
+        jsCommand="""
+        page = document.querySelector(".N9abW");
+        page.scrollTo(0,page.scrollHeight);
+        var pageAnd= page.scrollHeight;
+        return pageAnd;
+        """
+        pageAnd=self.browser.execute_script(jsCommand)
+        while True:
+            finish=pageAnd
+            time.sleep(1)
+            pageAnd=self.browser.execute_script(jsCommand)
+            if finish == pageAnd:
+                break
