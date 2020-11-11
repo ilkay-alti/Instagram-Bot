@@ -27,7 +27,7 @@ class Browser:
         # Browser.DowondloadUserPicture(self)  --------> install ful page user dowondload
         # Browser.UserFollowDM(self)
         # Browser.followingList
-        Browser.UserFollowDM(self)
+        # Browser.GTuser(self)
 
 
 
@@ -304,8 +304,11 @@ class Browser:
                 time.sleep(2)
                 self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea').send_keys(c.newUserMessage)
                 time.sleep(2)
+                Browser.GTuser(self)
                 
-               
+      
+    
+                
                 
 
 
@@ -368,3 +371,15 @@ class Browser:
         with open("Users/newFollower.txt", "w", encoding="utf-8") as file:
             for value in nameSet2.difference(nameSet1):   
                 file.write(value + "\n")
+
+    def GTuser(self):
+        self.browser.get(self.link+ui.username)
+        with open("Users/newFollower.txt", "r", encoding="utf-8") as file:    
+            nameSet1 = set(file.read().splitlines())
+            for user in nameSet1:
+                print(user)
+                time.sleep(2)
+                self.browser.get(self.link+user)
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/div[1]/div[1]/div/div/div/span/span[1]/button').click()
+                time.sleep(2)
