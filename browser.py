@@ -24,7 +24,10 @@ class Browser:
        
         # Browser.DeleteNotFollow(self)   ------>Delete Not Follow
         # Browser.DowonloadHastagsFullPicture(self)  -----> install ful page dowondload
-        Browser.DowondloadUserPicture(self)
+        # Browser.DowondloadUserPicture(self)  --------> install ful page user dowondload
+        # Browser.UserFollowDM(self)
+        # Browser.followingList
+        Browser.UserFollowDM(self)
 
 
 
@@ -219,10 +222,10 @@ class Browser:
         time.sleep(2)
         Browser.unfollowList(self)
         time.sleep(2)
-        os.remove("following.txt")
-        os.remove("followers.txt")
+        os.remove("Users/following.txt")
+        os.remove("Users/followers.txt")
         self.browser.get(self.link+ui.username)
-        with open("unfollow.txt", "r", encoding="utf-8") as file:    
+        with open("Users/unfollow.txt", "r", encoding="utf-8") as file:    
             nameSet1 = set(file.read().splitlines())
             for user in nameSet1:
                 print(user)
@@ -233,7 +236,6 @@ class Browser:
                 time.sleep(2)
                 self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[1]').click()
                 time.sleep(2)
-
 
     def DowonloadHastagsFullPicture(self):
         
@@ -257,7 +259,6 @@ class Browser:
                 urllib.request.urlretrieve(img_url,fulname)
 
         os.remove("images.txt")
-
 
     def DowondloadUserPicture(self):
         self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.DowondloadUserPicture)
@@ -283,7 +284,29 @@ class Browser:
                 
         os.remove("image.txt")
 
-
+    def UserFollowDM(self):
+        Browser.followersList(self)
+        Browser.followingList(self)
+        Browser.messageList(self)
+        self.browser.get('https://www.instagram.com/direct/inbox/')
+        with open("Users/newFollower.txt", "r", encoding="utf-8") as file:    
+            nameSet1 = set(file.read().splitlines())
+            for user in nameSet1:
+                self.browser.get('https://www.instagram.com/direct/inbox/')
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div/button').click()
+                print(user)
+                self.browser.find_element_by_xpath('//input[@name="queryBox"]').send_keys(user)
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div[2]/div[2]/div[2]/div/div[3]/button/span').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div[1]/div/div[2]/div/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea').send_keys(c.newUserMessage)
+                time.sleep(2)
+                
+               
+                
 
 
     #GENERAL COMMANDS
@@ -310,7 +333,7 @@ class Browser:
         following=self.browser.find_elements_by_css_selector('.FPmhX.notranslate._0imsa')
         for followings in following:
             
-            followingTxt=open("following.txt","a")
+            followingTxt=open("Users/following.txt","a")
             followingTxt.write(followings.text+"\n")
 
     def followersList(self):
@@ -321,16 +344,27 @@ class Browser:
         followers= self.browser.find_elements_by_css_selector('.FPmhX.notranslate._0imsa')
 
         for follow in followers:
-            follwersTxt=open("followers.txt","a")
+            follwersTxt=open("Users/followers.txt","a")
             follwersTxt.write(follow.text+"\n")
 
     def unfollowList(self):
-        with open("following.txt", "r", encoding="utf-8") as file:    
+        with open("Users/following.txt", "r", encoding="utf-8") as file:    
             nameSet1 = set(file.read().splitlines())
 
-        with open("followers.txt", "r", encoding="utf-8") as file:
+        with open("Users/followers.txt", "r", encoding="utf-8") as file:
             nameSet2 = set(file.read().splitlines())
             
-        with open("unfollow.txt", "w", encoding="utf-8") as file:
+        with open("Users/unfollow.txt", "w", encoding="utf-8") as file:
             for value in nameSet1.difference(nameSet2):   
+                file.write(value + "\n")
+
+    def messageList(self):
+        with open("Users/following.txt", "r", encoding="utf-8") as file:    
+            nameSet1 = set(file.read().splitlines())
+
+        with open("Users/followers.txt", "r", encoding="utf-8") as file:
+            nameSet2 = set(file.read().splitlines())
+            
+        with open("Users/newFollower.txt", "w", encoding="utf-8") as file:
+            for value in nameSet2.difference(nameSet1):   
                 file.write(value + "\n")

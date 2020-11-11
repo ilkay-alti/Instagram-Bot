@@ -22,3 +22,9 @@ HastagPageCommads=[
 #Dowondload Profile Photo
 DowondloadHastagsPicture="#"+"python" #------ ful hastag page dowondload
 DowondloadUserPicture="codeofpython"
+
+
+
+#Message
+newUserMessage='''Hello, welcome to our software page. Nice to see you among us. Your questions and contact @ilkay_alti
+'''
