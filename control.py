@@ -20,4 +20,5 @@ HastagPageCommads=[
 ]
 
 #Dowondload Profile Photo
-userNameProfilePhoto="1dunyayazilim"
+DowondloadHastagsPicture="#"+"python" #------ ful hastag page dowondload
+DowondloadUserPicture="codeofpython"

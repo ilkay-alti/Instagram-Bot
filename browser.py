@@ -4,9 +4,7 @@ import userınfo as ui
 import control as c
 import random
 import os
-import requests
-from bs4 import BeautifulSoup
-
+import urllib.request
 
 PATH ="/home/ilkayus/path/chromedriver"
 
@@ -15,7 +13,7 @@ class Browser:
     def __init__(self,link):
         self.link=link
         self.browser=webdriver.Chrome(PATH)
-        # Browser.loginInstagram(self)
+        Browser.loginInstagram(self)
         # Browser.followersList(self) -------> Followers lıst
         # Browser.followingList(self) -------> Following List
         
@@ -25,7 +23,14 @@ class Browser:
         # Browser.HastagPostCommand(self)  # Hastag Full page Command
        
         # Browser.DeleteNotFollow(self)   ------>Delete Not Follow
-        Browser.DowonloadProfilePicture(self)
+        # Browser.DowonloadHastagsFullPicture(self)  -----> install ful page dowondload
+        Browser.DowondloadUserPicture(self)
+
+
+
+
+
+
 
     def loginInstagram(self):
         self.browser.get(self.link)
@@ -41,7 +46,7 @@ class Browser:
         time.sleep(2)
         self.browser.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[2]').click()
         time.sleep(2)
-        
+     
         
 
 
@@ -230,21 +235,53 @@ class Browser:
                 time.sleep(2)
 
 
-    def DowonloadProfilePicture(self):
+    def DowonloadHastagsFullPicture(self):
+        
+        self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.DowondloadHastagsPicture)
+        time.sleep(2)
+        self.browser.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/div[4]/div/a[1]').click()
+        time.sleep(2)
 
-        URL="https://www.instagram.com/{}/"
+        images=self.browser.find_elements_by_tag_name('img')
+        images=[image.get_attribute('src') for image in images] 
 
-        request= requests.get(URL.format(c.userNameProfilePhoto))
-        soup= BeautifulSoup(request.text,"html.parser")
-        finder =soup.find("meta",property="og:image")
-        url=finder.attrs['content']    
+        for image in images:
+            imageJpg=open("image.txt","a")
+            imageJpg.write(image+"\n")
 
-        with open(c.userNameProfilePhoto+".jpg","wb") as picture:
-            image=requests.get(url).content
-            picture.write(image)
+        with open("image.txt","r",encoding="utf-8") as file:
+            nameset1=set(file.read().splitlines())
+            for img_url in nameset1:
+                name=random.randrange(1,1000000)
+                fulname="picture/"+str(name)+".jpg"
+                urllib.request.urlretrieve(img_url,fulname)
+
+        os.remove("images.txt")
 
 
+    def DowondloadUserPicture(self):
+        self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.DowondloadUserPicture)
+        time.sleep(2)
+        self.browser.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/div[4]/div/a[1]').click()
+        time.sleep(2)
 
+        images=self.browser.find_elements_by_tag_name('img')
+        images=[image.get_attribute('src') for image in images] 
+
+        for image in images:
+            imageJpg=open("image.txt","a")
+            imageJpg.write(image+"\n")
+
+        with open("image.txt","r",encoding="utf-8") as file:
+            nameset1=set(file.read().splitlines())
+            for img_url in nameset1:
+                name=random.randrange(1,1000000)
+                fulname="picture/"+str(name)+".jpg"
+                urllib.request.urlretrieve(img_url,fulname)
+              
+            
+                
+        os.remove("image.txt")
 
 
 
