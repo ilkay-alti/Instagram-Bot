@@ -392,7 +392,7 @@ class Browser:
             self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div/div[2]/div[3]/div[1]/button').click()
             time.sleep(1)
             self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[2]/button[1]').click()
-            time.sleep(2)
+            time.sleep(10)
             print(follow)
                 
 
