@@ -366,6 +366,7 @@ class Browser:
             time.sleep(3)
             print(follow)
 
+
     #GENERAL COMMANDS
     def scrollDown(self):
         jsCommand="""
