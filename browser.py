@@ -28,8 +28,9 @@ class Browser:
         # Browser.UserFollowDM(self)
         # Browser.followingList
         # Browser.GTuser(self)
+        # Browser.DmDelete(self)
+        # Browser.userUnFollowDM(self)
         Browser.DmDelete(self)
-
 
 
 
@@ -45,8 +46,8 @@ class Browser:
         password.send_keys(ui.password)
         loginBtn.click()
         time.sleep(3)
-        self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/div/button').click()
-        time.sleep(2)
+        self.browser.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div/div/button').click()
+        time.sleep(3)
         self.browser.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[2]').click()
         time.sleep(2)
      
@@ -237,6 +238,10 @@ class Browser:
                 self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[1]').click()
                 time.sleep(2)
 
+            os.remove('Users/unfollow.txt')
+
+
+
     def DowonloadHastagsFullPicture(self):
         
         self.browser.find_element_by_xpath('//input[@type="text"]').send_keys(c.DowondloadHastagsPicture)
@@ -284,10 +289,12 @@ class Browser:
                 
         os.remove("image.txt")
 
-    def UserFollowDM(self):
+    def UserNewFollowDM(self):
         Browser.followersList(self)
         Browser.followingList(self)
         Browser.messageList(self)
+        os.remove('Users/followers.txt')
+        os.remove('Users/following.txt')
         self.browser.get('https://www.instagram.com/direct/inbox/')
         with open("Users/newFollower.txt", "r", encoding="utf-8") as file:    
             nameSet1 = set(file.read().splitlines())
@@ -303,8 +310,61 @@ class Browser:
                 self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div[1]/div/div[2]/div/button').click()
                 time.sleep(2)
                 self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea').send_keys(c.newUserMessage)
+                time.sleep(10)
+                print(user)
                 time.sleep(2)
-                Browser.GTuser(self)
+                self.browser.get(self.link+user)
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/div/div/button').click()
+                time.sleep(2)                      
+            os.remove('Users/newFollower.txt')       
+     
+
+    def userUnFollowDM(self):
+        Browser.followersList(self)
+        Browser.followingList(self)
+        Browser.unfollowList(self)
+        os.remove('Users/followers.txt')
+        os.remove('Users/following.txt')
+        
+        self.browser.get('https://www.instagram.com/direct/inbox/')
+        with open("Users/unfollow.txt", "r", encoding="utf-8") as file:    
+            nameSet1 = set(file.read().splitlines())
+            for user in nameSet1:
+                self.browser.get('https://www.instagram.com/direct/inbox/')
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div/button').click()
+                print(user)
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//input[@name="queryBox"]').send_keys(user)
+                time.sleep(2)
+                self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div[2]/div[2]/div[2]/div/div[3]/button').click()
+                time.sleep(2)                      
+                self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div[1]/div/div[2]/div/button').click()
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea').send_keys(c.lostUserMessage)
+                time.sleep(2)
+                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[3]/button').click()
+                time.sleep(2)
+        os.remove('Users/unfollow.txt')
+
+    def DmDelete(self):
+        self.browser.get('https://www.instagram.com/direct/inbox/')
+        Browser.scrollDown2(self)
+    
+        followers= self.browser.find_elements_by_css_selector('.-qQT3.rOtsg')
+      
+        for follow in followers:
+            self.browser.find_element_by_class_name('-qQT3').click()
+            self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[1]/div/div/div[3]/button').click()
+            time.sleep(3)
+            self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div/div[2]/div[3]/div[1]/button').click()
+            time.sleep(3)
+            self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[2]/button[1]').click()
+            time.sleep(3)
+            self.browser.get('https://www.instagram.com/direct/inbox/')
+            time.sleep(3)
+            print(follow)
 
     #GENERAL COMMANDS
     def scrollDown(self):
@@ -366,37 +426,10 @@ class Browser:
             for value in nameSet2.difference(nameSet1):   
                 file.write(value + "\n")
 
-    def GTuser(self):
-        self.browser.get(self.link+ui.username)
-        with open("Users/newFollower.txt", "r", encoding="utf-8") as file:    
-            nameSet1 = set(file.read().splitlines())
-            for user in nameSet1:
-                print(user)
-                time.sleep(2)
-                self.browser.get(self.link+user)
-                time.sleep(2)
-                self.browser.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/div[1]/div[1]/div/div/div/span/span[1]/button').click()
-                time.sleep(2)
-
-
-    def DmDelete(self):
-        self.browser.get('https://www.instagram.com/direct/inbox/')
-        Browser.scrollDown2(self)
     
-        followers= self.browser.find_elements_by_css_selector('.-qQT3.rOtsg')
-      
-        for follow in followers:
-            self.browser.find_element_by_class_name('-qQT3').click()
-            self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[1]/div/div/div[3]/button').click()
-            time.sleep(1)
-            self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div/div[2]/div[3]/div[1]/button').click()
-            time.sleep(1)
-            self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[2]/button[1]').click()
-            time.sleep(10)
-            print(follow)
                 
 
-    def scrollDown2(self):
+    def scrollDown2(self): #Dm Scroll
         jsCommand="""
         page = document.querySelector(".N9abW");
         page.scrollTo(0,page.scrollHeight);
