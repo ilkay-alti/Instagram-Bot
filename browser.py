@@ -30,8 +30,9 @@ class Browser:
         # Browser.GTuser(self)
         # Browser.DmDelete(self)
         # Browser.userUnFollowDM(self)
-        Browser.DmDelete(self)
-
+        # Browser.DmDelete(self)
+        # Browser.StoryWatch(self)
+        Browser.StoryCommand(self)
 
 
 
@@ -366,6 +367,14 @@ class Browser:
             time.sleep(3)
             print(follow)
 
+    def StoryWatch(self):
+        self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/section/div/div[1]/div/div/div/div/ul/li[3]/div/button').click()
+        time.sleep(5)
+        while True:
+
+            self.browser.find_element_by_xpath('//*[@id="react-root"]/section/div/div/section/div[2]/button[2]/div').click()
+            time.sleep(0.5)
+        
 
     #GENERAL COMMANDS
     def scrollDown(self):
