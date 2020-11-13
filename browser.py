@@ -32,6 +32,7 @@ class Browser:
         # Browser.userUnFollowDM(self)
         # Browser.DmDelete(self)
         # Browser.StoryWatch(self)
+        Browser.DeleteNotFollow(self)
 
 
 
@@ -217,6 +218,7 @@ class Browser:
                 self.browser.find_element_by_xpath('/html/body/div[5]/div[3]/button').click()               
 
     def DeleteNotFollow(self):
+        caount=c.DeleteNotFollowCount
         Browser.followingList(self)
         time.sleep(2)
         Browser.followersList(self)
@@ -225,20 +227,39 @@ class Browser:
         time.sleep(2)
         os.remove("Users/following.txt")
         os.remove("Users/followers.txt")
-        self.browser.get(self.link+ui.username)
-        with open("Users/unfollow.txt", "r", encoding="utf-8") as file:    
-            nameSet1 = set(file.read().splitlines())
-            for user in nameSet1:
-                print(user)
-                time.sleep(2)
-                self.browser.get(self.link+user)
-                time.sleep(2)
-                self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/div/div[2]/div/span/span[1]/button').click()
-                time.sleep(2)
-                self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[1]').click()
-                time.sleep(2)
+        TrueorFalse=0
+        if TrueorFalse==c.DeleteNotFollowCount:
+            self.browser.get(self.link+ui.username)
+            with open("Users/unfollow.txt", "r", encoding="utf-8") as file:    
+                nameSet1 = set(file.read().splitlines())
+                for user in nameSet1:
+                    print(user)
+                    time.sleep(2)
+                    self.browser.get(self.link+user)
+                    time.sleep(2)
+                    self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/div/div[2]/div/span/span[1]/button').click()
+                    time.sleep(2)
+                    self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[1]').click()
+                    time.sleep(2)
+                    
+        elif TrueorFalse!=c.DeleteNotFollowCount:
+            TrueorFalse+=1
+            self.browser.get(self.link+ui.username)
+            with open("Users/unfollow.txt", "r", encoding="utf-8") as file:    
+                nameSet1 = set(file.read().splitlines())
+                for user in nameSet1:
+                    print(user)
+                    time.sleep(2)
+                    self.browser.get(self.link+user)
+                    time.sleep(2)
+                    self.browser.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/div/div[2]/div/span/span[1]/button').click()
+                    time.sleep(2)
+                    self.browser.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[1]').click()
+                    time.sleep(2)
+                    if c.DeleteNotFollowCount==TrueorFalse:
+                        break
 
-            os.remove('Users/unfollow.txt')
+        os.remove('Users/unfollow.txt')
 
 
 

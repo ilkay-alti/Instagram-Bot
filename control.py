@@ -29,3 +29,15 @@ DowondloadUserPicture="codeofpython"
 newUserMessage='''Hello, welcome to our software page. Nice to see you among us. Your questions and contact @ilkay_alti
 '''
 lostUserMessage=''' Sory '''
+
+#sınırlar
+DeleteNotFollowCount=160
+UserNewFollowDMCount=1
+
+
+
+
+
+
+
+web=''' <3 '''
