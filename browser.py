@@ -32,7 +32,6 @@ class Browser:
         # Browser.userUnFollowDM(self)
         # Browser.DmDelete(self)
         # Browser.StoryWatch(self)
-        Browser.StoryCommand(self)
 
 
 
